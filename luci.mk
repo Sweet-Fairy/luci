@@ -41,6 +41,8 @@ LUCI_LANG.uk=Українська (Ukrainian)
 LUCI_LANG.vi=Tiếng Việt (Vietnamese)
 LUCI_LANG.zh_Hans=中文 (Chinese)
 LUCI_LANG.zh_Hant=臺灣華語 (Taiwanese)
+LUCI_LANG.zh-cn=简体中文 (Simplified Chinese)
+LUCI_LANG.zh-tw=繁体中文 (Traditional Chinese)
 
 # Submenu titles
 LUCI_MENU.col=1. Collections
@@ -120,7 +122,7 @@ ifeq ($(PKG_NAME),luci-base)
  define Package/luci-base/config
    config LUCI_SRCDIET
 	bool "Minify Lua sources"
-	default n
+	default y
 
    config LUCI_JSMIN
 	bool "Minify JavaScript sources"
@@ -134,6 +136,7 @@ ifeq ($(PKG_NAME),luci-base)
 
      config LUCI_LANG_$(lang)
 	   tristate "$(shell echo '$(LUCI_LANG.$(lang))' | sed -e 's/^.* (\(.*\))$$/\1/') ($(lang))")
+	    default $(shell if [ '$(lang)' == 'zh-cn' ]; then echo y; else echo n; fi))
 
    endmenu
  endef
